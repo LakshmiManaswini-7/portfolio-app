@@ -89,7 +89,7 @@ st.markdown("""
 <style>
 /* Global typography (increase font size for all text except headings) */
 html, body, [class*="css"]  {
-  font-size: 22px !important;   /* increased */
+  font-size: 18px !important;   /* increased */
   line-height: 1.7;
 }
 
