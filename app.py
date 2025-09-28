@@ -259,7 +259,7 @@ with st.sidebar:
 # Main hero (card)
 # -------------------------
 st.markdown("<div class='main-content-card'>", unsafe_allow_html=True)
-st.markdown(f"<h1 class='hero'>Hi, I am {PROFILE['name']}! 👋</h1>", unsafe_allow_html=True)
+st.markdown(f"<h1 class='hero'>Hi, I am {PROFILE['name']}!</h1>", unsafe_allow_html=True)
 st.write(PROFILE["about"])
 st.markdown("</div>", unsafe_allow_html=True)
 
