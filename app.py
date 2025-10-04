@@ -41,7 +41,22 @@ SKILLS = {
     "Tools": ["Git", "Docker", "Flask", "Jupyter", "VS Code", "PyCharm"],
 }
 
+# -------------------------
+# EXPERIENCE (now includes Learning Assistant)
+# -------------------------
 EXPERIENCE = [
+    {
+        "company": "Southeast Missouri State University",
+        "role": "Learning Assistant",
+        "period": "Aug 2024 – Present",
+        "location": "Cape Girardeau, Missouri, USA",
+        "bullets": [
+            "Provide 1-on-1 and small-group tutoring for Computer Science and AI/ML coursework.",
+            "Assist students with coding assignments, exam prep, and conceptual understanding in programming and data science.",
+            "Facilitate virtual and in-person sessions and collaborate with faculty to improve student learning outcomes."
+        ],
+        "tech": ["Tutoring", "Python", "Data Structures", "Algorithms"],
+    },
     {
         "company": "Value Information Technology Solutions Pvt. Ltd.",
         "role": "Machine Learning & Analytics Intern",
@@ -58,14 +73,47 @@ EXPERIENCE = [
     },
 ]
 
+# -------------------------
+# CERTIFICATES (new)
+# -------------------------
+CERTIFICATES = [
+    {
+        "title": "Getting Started with Deep Learning",
+        "issuer": "LinkedIn Learning",
+        "date": "Mar 2025",
+        "notes": "Skills: Deep Learning",
+        "file": None  # put path like "assets/cert1.pdf" if you want download button
+    },
+    {
+        "title": "Training Neural Networks in Python",
+        "issuer": "LinkedIn Learning",
+        "date": "Mar 2025",
+        "notes": "Skills: Python · Neural Networks",
+        "file": None
+    },
+    {
+        "title": "Machine Learning Specialization",
+        "issuer": "DeepLearning.AI",
+        "date": "Oct 2024 (Expired Dec 2024)",
+        "notes": "Foundations of ML (Andrew Ng)",
+        "file": None
+    },
+    {
+        "title": "ChatGPT Prompt Engineering for Developers",
+        "issuer": "DeepLearning.AI",
+        "date": "Aug 2024 (Expired Sep 2024)",
+        "notes": "Skills: Prompt Engineering",
+        "file": None
+    },
+]
+
 PROJECTS = [
     {
         "name": "AI-powered SQL Chatbot",
         "desc": "Streamlit + Mistral LLM (Ollama) chatbot to translate natural language queries into SQL for CSV datasets.",
         "tech": ["Python", "Streamlit", "Ollama", "Mistral LLM", "DuckDB", "SQL"],
         "link": "https://github.com/LakshmiManaswini-7/sql-chatbot-streamlit",
-        "image": "sql_chatbot.png", 
-        # "impact": "Enabled non-technical users to analyze CSV data securely without SQL knowledge.",
+        "image": "sql_chatbot.png",
     },
 ]
 
@@ -200,16 +248,6 @@ h2, .stMarkdown h2 {
     transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-# /* Project image with hover */
-# .project-image {
-#     width: 100%;
-#     max-width: 360px;   /* smaller size */
-#     border-radius: 12px;
-#     transition: transform 0.25s ease, box-shadow 0.25s ease;
-#     cursor: pointer;
-#     margin-bottom: 12px;
-#     display: block;
-# }
 .project-image {
     width: 500px;        /* 👈 smaller like profile photo */
     height: auto;
@@ -223,6 +261,45 @@ h2, .stMarkdown h2 {
 .project-image:hover {
     transform: translateY(-6px) scale(1.03);
     box-shadow: 0 10px 22px rgba(0,0,0,0.25);
+}
+            /* Certificate card with forced white background + slide-up animation */
+.cert-card {
+    border-radius: 12px !important;
+    padding: 14px 18px !important;
+    margin-bottom: 16px !important;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06) !important;
+    background: #ffffff !important;         /* force white */
+    color: #111 !important;                 /* force dark text */
+
+    transform: translateY(18px) !important;
+    opacity: 0 !important;
+
+    animation-name: slideUpFade !important;
+    animation-duration: 700ms !important;
+    animation-timing-function: cubic-bezier(.2,.9,.2,1) !important;
+    animation-fill-mode: both !important;
+    will-change: transform, opacity !important;
+    transition: transform 260ms ease, box-shadow 260ms ease !important;
+    cursor: default !important;
+}
+
+/* Hover effect */
+.cert-card:hover {
+    transform: translateY(-8px) scale(1.02) !important;
+    box-shadow: 0 24px 48px rgba(0,0,0,0.14) !important;
+    cursor: pointer !important;
+}
+
+/* Focus for keyboard users */
+.cert-card:focus {
+    outline: 3px solid rgba(34,197,94,0.12) !important;
+}
+
+/* keyframes */
+@keyframes slideUpFade {
+    0%   { transform: translateY(18px); opacity: 0; }
+    60%  { transform: translateY(-6px); opacity: 1; }
+    100% { transform: translateY(0); opacity: 1; }
 }
 
 
@@ -264,10 +341,10 @@ st.write(PROFILE["about"])
 st.markdown("</div>", unsafe_allow_html=True)
 
 # -------------------------
-# Tabs — each tab's content is inside a tab-panel card now
+# Tabs — added Certificates tab before Resume tab
 # -------------------------
-about_tab, skills_tab, exp_tab, projects_tab, resume_tab = st.tabs(
-    ["👤 About Me", "🛠️ Skills", "💼 Experience", "📁 Projects", "📄 Resume"]
+about_tab, skills_tab, exp_tab, projects_tab, certificates_tab, resume_tab = st.tabs(
+    ["👤 About Me", "🛠️ Skills", "💼 Experience", "📁 Projects", "🏅 Certificates", "📄 Resume"]
 )
 
 with about_tab:
@@ -345,14 +422,6 @@ with exp_tab:
     for job in EXPERIENCE:
         experience_card(job)
 
-# with projects_tab:
-#     st.subheader("Featured Projects")
-#     for p in PROJECTS:
-#         title = f"**[{p['name']}]({p['link']})**" if p.get("link") else p['name']
-#         st.markdown(f"{title} — {', '.join(p['tech'])}")
-#         st.write(p['desc'])
-#         if p.get("impact"): st.caption(p["impact"])
-#         st.markdown("---")
 with projects_tab:
     st.subheader("Featured Projects")
 
@@ -372,6 +441,56 @@ with projects_tab:
             """,
             unsafe_allow_html=True
         )
+# Replace the certificates tab block with this (CSS-free, Streamlit-native rendering)
+with certificates_tab:
+    st.subheader("Licenses & Certifications")
+    st.write("Certifications and course completions relevant to AI/ML.")
+
+    if not CERTIFICATES:
+        st.info("No certificates found. Make sure the CERTIFICATES list is defined.")
+    else:
+        for idx, cert in enumerate(CERTIFICATES):
+            # dark card inline styling (stronger than theme)
+            card_style = (
+                "background: linear-gradient(180deg,#0f1724,#0b1220);"
+                "color: #fff;"
+                "padding: 20px;"
+                "border-radius: 14px;"
+                "box-shadow: 0 10px 30px rgba(2,6,23,0.55);"
+                "margin-bottom: 18px;"
+                "display: block;"
+            )
+
+            # Build HTML for left (content) column
+            cert_html = f"""
+                <div style="{card_style}">
+                    <div style="display:flex; align-items:flex-start; gap:18px; width:100%;">
+                        <div style="flex:1; min-width:0;">
+                            <div style="font-size:14px; color:#ffd6a5; margin-bottom:6px;">{cert['issuer']} • {cert['date']}</div>
+                            <div style="font-size:20px; font-weight:700; margin-bottom:8px; color:#ffffff;">{cert['title']}</div>
+                            <div style="font-size:15px; color:#e6eef8;">{cert.get('notes','')}</div>
+                        </div>
+                    </div>
+                </div>
+            """
+
+            # Use columns so download button aligns to the right of the card
+            col_left, col_right = st.columns([10, 1], gap="small")
+            with col_left:
+                st.markdown(cert_html, unsafe_allow_html=True)
+            with col_right:
+                if cert.get("file"):
+                    try:
+                        # show download button (native)
+                        with open(cert["file"], "rb") as f:
+                            st.download_button(
+                                label="⬇️",
+                                data=f,
+                                file_name=cert["file"].split("/")[-1],
+                                key=f"dl_cert_{idx}"
+                            )
+                    except Exception:
+                        st.warning("Certificate file not found at the specified path.")
 
 
 
@@ -388,13 +507,6 @@ with resume_tab:
 st.markdown("<div class='chat-section'>", unsafe_allow_html=True)
 st.subheader("Ask me anything about my profile 🚀")
 
-# Black intro card under the bot
-intro_html = """
-<div class='bot-intro'>
-Hi! I'm Manu, Lakshmi Manaswini's AI assistant. Ask me anything about her skills, experience, projects, qualifications or visa status! 🚀
-</div>
-# """
-# st.markdown(intro_html, unsafe_allow_html=True)
 st.markdown(
     "<div class='Manu-intro'>Hi! I'm Manu, Lakshmi Manaswini's AI assistant. "
     "Ask me anything about her skills, experience, projects, qualifications or visa status! 🚀</div>",
@@ -402,7 +514,6 @@ st.markdown(
 )
 
 # chat input
-# question = st.chat_input("Type your question here…")
 user_question = st.chat_input("Type your question here...")
 
 # show conversational bubbles
