@@ -6,6 +6,7 @@
 import streamlit as st
 from PIL import Image
 import base64
+import os
 
 def img_to_base64(path):
     with open(path, "rb") as f:
@@ -13,7 +14,7 @@ def img_to_base64(path):
 
 # -------------------------
 # DATA from resume
-# -------------------------
+# -------------------------         
 PROFILE = {
     "name": "Lakshmi Manaswini Pulicharla",
     "role": "AI & ML Engineer | Data Scientist",
@@ -21,9 +22,11 @@ PROFILE = {
     "phone": "+1 314-913-6194",
     "location": "Saint Louis, Missouri, USA",
     "about": (
-        "Machine Learning Engineer with 1 year of experience in building real-time monitoring solutions, optimizing SQL pipelines, "
-        "and applying machine learning for anomaly detection and predictive insights. Proficient in Python, SQL, and Scikit-learn, with a proven record of improving system. "
-        "Skilled in data visualization, statistical modeling, and automation, eager to deliver scalable, data-driven solutions"
+        "Experienced Machine Learning Engineer skilled in developing and deploying end-to-end AI and analytics solutions."
+        "Expertise in real-time monitoring systems, SQL pipeline optimization, and predictive modeling using Scikit-learn "
+        "and PyTorch. Proficient in Python, SQL, and data visualization, with strong foundations in statistical analysis, model"
+        "optimization, and automation. Passionate about delivering scalable, data-driven solutions that enhance decision-making and "
+        "business performance."
     ),
     "photo_path": "assets/profile.jpg",
     "github": "https://github.com/LakshmiManaswini-7",
@@ -90,7 +93,7 @@ CERTIFICATES = [
         "date": "Mar 2025",
         "notes": "Skills: Python · Neural Networks",
         "file": None
-    },
+    },  
     {
         "title": "Machine Learning Specialization",
         "issuer": "DeepLearning.AI",
@@ -122,6 +125,7 @@ EDUCATION = [
         "school": "Southeast Missouri State University",
         "program": "M.S. in Computer and Information Sciences",
         "period": "Jan 2024 - Dec 2025",
+        "location": "Cape Girardeau, Missouri, United States",
         "details": "GPA 3.72/4.0 | Coursework: ML, AI, Data Structures, Networks, Software Engineering, Data Analysis",
     }
 ]
@@ -343,19 +347,71 @@ st.markdown("</div>", unsafe_allow_html=True)
 # -------------------------
 # Tabs — added Certificates tab before Resume tab
 # -------------------------
-about_tab, skills_tab, exp_tab, projects_tab, certificates_tab, resume_tab = st.tabs(
-    ["👤 About Me", "🛠️ Skills", "💼 Experience", "📁 Projects", "🏅 Certificates", "📄 Resume"]
+education_tab, skills_tab, exp_tab, projects_tab, certificates_tab, resume_tab = st.tabs(
+    ["👤 Education", "🛠️ Skills", "💼 Experience", "📁 Projects", "🏅 Certificates", "📄 Resume"]
 )
 
-with about_tab:
+# with education_tab:
+#     # tab-panel has its own card via CSS .stTabs [data-baseweb="tab-panel"]
+#     st.subheader("Education")
+#     for edu in EDUCATION:
+#         st.write(f"**{edu['school']}** — {edu['program']} ({edu['period']})")
+#         if edu.get("location"): st.location(edu["location"])
+#         if edu.get("details"): st.caption(edu["details"])
+with education_tab:
     # tab-panel has its own card via CSS .stTabs [data-baseweb="tab-panel"]
     st.subheader("Education")
     for edu in EDUCATION:
-        st.write(f"**{edu['school']}** — {edu['program']} ({edu['period']})")
-        if edu.get("details"): st.caption(edu["details"])
+        st.markdown(f"**{edu['school']}** — {edu['program']}")
+        if edu.get("location"):
+            st.markdown(f"📍 *{edu['location']}*")
+        st.markdown(f"📅 *{edu['period']}*")
+        if edu.get("details"):
+            st.caption(edu["details"])
+        st.markdown("---")  # separator between entries
 
+
+# st.markdown("""
+# <style>
+# .skill-card {
+#     border-radius: 12px;
+#     padding: 16px 20px;
+#     margin-bottom: 14px;
+#     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+#     transition: transform 0.3s ease, box-shadow 0.3s ease;
+#     cursor: pointer;
+#     display: inline-block;  /* important for hover in columns */
+#     width: 100%;            /* take full column width */
+# }
+# .skill-card:hover {
+#     transform: translateY(-5px);
+#     box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+# }
+# </style>
+# """, unsafe_allow_html=True)
+# with skills_tab:
+#     st.subheader("Technical Skills")
+#     cols = st.columns(2)
+#     i = 0
+
+#     # pastel colors
+#     skill_colors = ["#fde2e2", "#e0f7fa", "#fff3e0", "#e8f5e9", "#f3e5f5", "#e1f5fe", "#fff9c4", "#ffe0b2"]
+
+#     for idx, (category, skills_list) in enumerate(SKILLS.items()):
+#         color = skill_colors[idx % len(skill_colors)]
+#         with cols[i % 2]:
+#             st.markdown(
+#                 f"""
+#                 <div class='skill-card' style='background-color:{color};'>
+#                     <strong>{category}:</strong> {', '.join(skills_list)}
+#                 </div>
+#                 """,
+#                 unsafe_allow_html=True
+#             )
+#         i += 1
 st.markdown("""
 <style>
+/* Skill card appearance + force high-contrast text for all descendants */
 .skill-card {
     border-radius: 12px;
     padding: 16px 20px;
@@ -363,21 +419,53 @@ st.markdown("""
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
-    display: inline-block;  /* important for hover in columns */
-    width: 100%;            /* take full column width */
+    display: inline-block;
+    width: 100%;
+    background-color: #ffffff !important;
+    color: #111827 !important;
+    -webkit-text-fill-color: #111827 !important;
+    text-shadow: none !important;
+    mix-blend-mode: normal !important;
+    filter: none !important;
 }
+
+/* Force color on everything inside to defeat host overrides */
+.skill-card, .skill-card * {
+    color: #111827 !important;
+    -webkit-text-fill-color: #111827 !important;
+    mix-blend-mode: normal !important;
+    filter: none !important;
+}
+
+/* Links inside skill cards */
+.skill-card a, .skill-card a:visited {
+    color: #1f2937 !important;
+    text-decoration: underline !important;
+}
+
+/* Hover state — keep text color stable and keep a slightly stronger shadow */
 .skill-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+    color: #111827 !important;
+}
+
+/* Small responsive guard: ensure long lists wrap nicely */
+.skill-card .skill-list {
+    display: inline;
+    white-space: normal;
+    word-break: break-word;
 }
 </style>
 """, unsafe_allow_html=True)
+
+
 with skills_tab:
     st.subheader("Technical Skills")
     cols = st.columns(2)
     i = 0
 
-    # pastel colors
+    # pastel colors for background
     skill_colors = ["#fde2e2", "#e0f7fa", "#fff3e0", "#e8f5e9", "#f3e5f5", "#e1f5fe", "#fff9c4", "#ffe0b2"]
 
     for idx, (category, skills_list) in enumerate(SKILLS.items()):
@@ -385,8 +473,9 @@ with skills_tab:
         with cols[i % 2]:
             st.markdown(
                 f"""
-                <div class='skill-card' style='background-color:{color};'>
-                    <strong>{category}:</strong> {', '.join(skills_list)}
+                <div class='skill-card' style='background-color:{color}; color:#111827;'>
+                    <strong style='color:#111827'>{category}:</strong>
+                    <span class='skill-list' style='color:#111827'>{', '.join(skills_list)}</span>
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -494,13 +583,29 @@ with certificates_tab:
 
 
 
+# with resume_tab:
+#     st.subheader("Resume")
+#     try:
+#         st.download_button("⬇️ Download my resume", RESUME_PDF_PATH, file_name="LakshmiManaswini_Resume.pdf")
+#     except Exception:
+#         st.info("Place your PDF at assets/LakshmiManaswini_Resume.pdf")
 with resume_tab:
     st.subheader("Resume")
     try:
-        st.download_button("⬇️ Download my resume", RESUME_PDF_PATH, file_name="LakshmiManaswini_Resume.pdf")
-    except Exception:
-        st.info("Place your PDF at assets/LakshmiManaswini_Resume.pdf")
-
+        if os.path.exists(RESUME_PDF_PATH):
+            with open(RESUME_PDF_PATH, "rb") as f:
+                pdf_bytes = f.read()
+            st.download_button(
+                label="⬇️ Download my resume",
+                data=pdf_bytes,
+                file_name="LakshmiManaswini_Resume.pdf",
+                mime="application/pdf",
+                key="download_resume"
+            )
+        else:
+            st.info("Place your PDF at assets/LakshmiManaswini_Resume.pdf")
+    except Exception as e:
+        st.error(f"Error preparing resume for download: {e}")
 # -------------------------
 # Chatbot area — black intro card + chat bubbles
 # -------------------------
