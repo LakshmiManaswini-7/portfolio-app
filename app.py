@@ -54,9 +54,11 @@ EXPERIENCE = [
         "period": "Aug 2024 – Present",
         "location": "Cape Girardeau, Missouri, USA",
         "bullets": [
-            "Provide 1-on-1 and small-group tutoring for Computer Science and AI/ML coursework.",
-            "Assist students with coding assignments, exam prep, and conceptual understanding in programming and data science.",
-            "Facilitate virtual and in-person sessions and collaborate with faculty to improve student learning outcomes."
+            "Conducted 1-on-1 and group tutoring sessions for Computer Science, Machine Learning, and Statistics courses.",  
+            "Guided students in applying Python for data analysis, statistical modeling, and ML algorithm implementation.",  
+            "Mentored learners on probability, hypothesis testing, and data-driven decision-making concepts.",  
+            "Assisted with coding assignments, model evaluation, and performance optimization tasks.",  
+            "Collaborated with faculty to create interactive learning materials, improving student engagement and comprehension in AI and analytical subjects."
         ],
         "tech": ["Tutoring", "Python", "Data Structures", "Algorithms"],
     },
