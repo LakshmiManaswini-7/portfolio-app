@@ -411,7 +411,6 @@ with education_tab:
 #         i += 1
 st.markdown("""
 <style>
-/* Skill card appearance + force high-contrast text for all descendants */
 .skill-card {
     border-radius: 12px;
     padding: 16px 20px;
@@ -421,36 +420,26 @@ st.markdown("""
     cursor: pointer;
     display: inline-block;
     width: 100%;
-    background-color: #ffffff !important;
-    color: #111827 !important;
-    -webkit-text-fill-color: #111827 !important;
+    /* keep background color inline */
+    color: #000000 !important;  /* black text */
+    -webkit-text-fill-color: #000000 !important;
     text-shadow: none !important;
     mix-blend-mode: normal !important;
     filter: none !important;
 }
 
-/* Force color on everything inside to defeat host overrides */
 .skill-card, .skill-card * {
-    color: #111827 !important;
-    -webkit-text-fill-color: #111827 !important;
+    color: #000000 !important;  /* force black text for all child elements */
+    -webkit-text-fill-color: #000000 !important;
     mix-blend-mode: normal !important;
     filter: none !important;
 }
 
-/* Links inside skill cards */
-.skill-card a, .skill-card a:visited {
-    color: #1f2937 !important;
-    text-decoration: underline !important;
-}
-
-/* Hover state — keep text color stable and keep a slightly stronger shadow */
 .skill-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 18px rgba(0,0,0,0.25);
-    color: #111827 !important;
 }
 
-/* Small responsive guard: ensure long lists wrap nicely */
 .skill-card .skill-list {
     display: inline;
     white-space: normal;
@@ -465,7 +454,7 @@ with skills_tab:
     cols = st.columns(2)
     i = 0
 
-    # pastel colors for background
+    # pastel color backgrounds
     skill_colors = ["#fde2e2", "#e0f7fa", "#fff3e0", "#e8f5e9", "#f3e5f5", "#e1f5fe", "#fff9c4", "#ffe0b2"]
 
     for idx, (category, skills_list) in enumerate(SKILLS.items()):
@@ -473,14 +462,15 @@ with skills_tab:
         with cols[i % 2]:
             st.markdown(
                 f"""
-                <div class='skill-card' style='background-color:{color}; color:#111827;'>
-                    <strong style='color:#111827'>{category}:</strong>
-                    <span class='skill-list' style='color:#111827'>{', '.join(skills_list)}</span>
+                <div class='skill-card' style='background-color:{color}; color:#000000;'>
+                    <strong style='color:#000000'>{category}:</strong>
+                    <span class='skill-list' style='color:#000000'>{', '.join(skills_list)}</span>
                 </div>
                 """,
                 unsafe_allow_html=True
             )
         i += 1
+
 
 
 
